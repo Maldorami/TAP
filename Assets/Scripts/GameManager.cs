@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour {
 
     public GameObject pad;
 
+    bool alreadyShowingAd = false;
+
+    bool breakHighScore = false;
+
 	void Start () {
 
         HighScore = PlayerPrefs.GetInt("HighScore", 0);
@@ -34,9 +38,13 @@ public class GameManager : MonoBehaviour {
         if (!instance)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-
-	}
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void SumarPuntos()
     {
@@ -45,8 +53,9 @@ public class GameManager : MonoBehaviour {
         ActualizarScoreText();
 
         if(Score > HighScore){
+            breakHighScore = true;
             HighScore = Score;
-        }
+        }        
     }
 
     public int ActualizarVelocidad()
@@ -69,14 +78,19 @@ public class GameManager : MonoBehaviour {
         {
             if (PlayerLives <= 0)
             {
+                if (!alreadyShowingAd && Time.timeScale > 0)
+                {
+                    alreadyShowingAd = true;
+                    AdsHandler.instance.ShowAd();
+                }
+
+
                 pad.SetActive(false);
+                panel.SetActive(true);
 
                 Time.timeScale = 0;
 
                 PlayerPrefs.SetInt("HighScore", HighScore);
-
-                panel.SetActive(true);
-
                 EndScoreText.text = "Score:\n" + Score.ToString();
                 HighScoreText.text = "HighScore:\n" + HighScore.ToString();
             }
@@ -84,7 +98,6 @@ public class GameManager : MonoBehaviour {
         else
         {
             Time.timeScale = 0;
-
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 StartGame();
@@ -94,14 +107,16 @@ public class GameManager : MonoBehaviour {
 
     public void RestartScene()
     {
+        alreadyShowingAd = false;
+        AnalyticsManager.instance.SaveScoreOnAnalytics();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void StartGame()
     {
-        start = true;
-        StartImage.SetActive(false);
-        Time.timeScale = 1;
+            start = true;
+            StartImage.SetActive(false);
+            Time.timeScale = 1;
     }
 
     public void CambiarLado()
