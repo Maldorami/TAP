@@ -121,7 +121,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.MaldoGames.TAP
-  bundleVersion: 1.1
+  bundleVersion: 1.2
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -199,8 +199,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 2
   androidSplashScreen: {fileID: 2800000, guid: 91264f44d6cc54448a2ffb7e76952574, type: 3}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: C:/Users/Ramiro/Desktop/TAP/MaldoGames.keystore
+  AndroidKeyaliasName: maldorami
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   androidEnableBanner: 1
